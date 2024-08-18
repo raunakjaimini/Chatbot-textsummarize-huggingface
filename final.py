@@ -47,8 +47,12 @@ if st.button("Summarize Now"):
                 # Load data from YouTube or website
                 try:
                     if "youtube.com" in generic_url or "youtu.be" in generic_url:
-                        loader = YoutubeLoader.from_youtube_url(generic_url, add_video_info=True, language=selected_language[:2])
-                        docs = loader.load()
+                        try:
+                            loader = YoutubeLoader.from_youtube_url(generic_url, add_video_info=True, language=selected_language[:2])
+                            docs = loader.load()
+                        except Exception as e:
+                            st.error(f"Error accessing YouTube video: {e}")
+                            docs = []
                     else:
                         loader = UnstructuredURLLoader(
                             urls=[generic_url],
