@@ -47,12 +47,8 @@ if st.button("Summarize Now"):
                 # Load data from YouTube or website
                 try:
                     if "youtube.com" in generic_url or "youtu.be" in generic_url:
-                        try:
-                            loader = YoutubeLoader.from_youtube_url(generic_url, add_video_info=True, language=selected_language[:2])
-                            docs = loader.load()
-                        except Exception as e:
-                            st.error(f"Error accessing YouTube video: {e}")
-                            docs = []
+                        loader = YoutubeLoader.from_youtube_url(generic_url, add_video_info=True, language=selected_language[:2])
+                        docs = loader.load()
                     else:
                         loader = UnstructuredURLLoader(
                             urls=[generic_url],
@@ -94,3 +90,6 @@ if st.button("Summarize Now"):
                         st.exception(f"HTTP Error: {e}")
                 except Exception as e:
                     st.exception(f"Error during summarization: {e}")
+
+        except Exception as e:
+            st.exception(f"Exception: {e}")
